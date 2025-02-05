@@ -1,26 +1,22 @@
-import Profile from "./components/Profile/Profile";
-import FriendList from "./components/FriendList/FriendList";
-import TransactionHistory from "./components/TransactionHistory/TransactionHistory";
-
-import userData from "./data/userData.json";
-import friends from "./data/friends.json"
-import transaction from  "./data/transaction.json"
-
+import { useContext } from "react";
 import "./App.css";
+import Header from "./components/Header/Header";
+import AuthForm from "./components/AuthForm/AuthForm";
+import { authContext } from "./components/AuthProvide/AuthProvide";
+import clsx from "clsx";
+import { themeContext } from "./components/ThemeProvide/ThemeProvide";
 
 function App() {
-  return (
-    <>
-      <Profile
-        username={userData.username}
-        tag={userData.tag}
-        location={userData.location}
-        avatar={userData.avatar}
-        stats={userData.stats}
-      />
-      <FriendList friends={friends} />
-      <TransactionHistory items={transaction} />
-    </>
+  const { user } = useContext(authContext);
+  const { theme } = useContext(themeContext);
+  return user ? (
+    <div>
+      <section className={clsx(theme === "light" ? "light" : "dark", "sect")}>
+        <Header />
+      </section>
+    </div>
+  ) : (
+    <AuthForm />
   );
 }
 export default App;
